@@ -1,0 +1,38 @@
+<app-page-header
+  titulo="Reportes de administración"
+  descripcion="Métricas generales de la plataforma."
+  icono="reportes"
+/>
+
+@if (error()) {
+  <div class="mb-6">
+    <app-alert tipo="error">{{ error() }}</app-alert>
+  </div>
+}
+
+<app-card>
+  <form class="flex flex-col gap-4 sm:flex-row sm:items-end" (ngSubmit)="generar(desde, hasta)">
+    <app-campo etiqueta="Desde">
+      <input appInput type="date" name="desde" [(ngModel)]="desde" />
+    </app-campo>
+    <app-campo etiqueta="Hasta">
+      <input appInput type="date" name="hasta" [(ngModel)]="hasta" />
+    </app-campo>
+    <button
+      appButton
+      type="submit"
+      [cargando]="generando()"
+      [disabled]="generando()"
+    >
+      Generar reporte
+    </button>
+  </form>
+</app-card>
+
+@if (reporte()) {
+  <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    @for (metrica of metricas(); track metrica.etiqueta) {
+      <app-metric-card [etiqueta]="metrica.etiqueta" [valor]="metrica.valor" [icono]="metrica.icono" />
+    }
+  </div>
+}

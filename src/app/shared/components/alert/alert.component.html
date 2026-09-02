@@ -1,0 +1,6 @@
+<div [class]="'flex items-start gap-3 rounded-lg p-4 text-sm ring-1 ' + config().clases" role="alert">
+  <app-icon [nombre]="config().icono" clase="mt-0.5 h-5 w-5 shrink-0" />
+  <div class="flex-1">
+    <ng-content />
+  </div>
+</div>

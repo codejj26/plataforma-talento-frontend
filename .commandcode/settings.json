@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Shell(npm:*)",
+      "Shell(dir:*)",
+      "Shell(node -e \"const c = require('./postcss.config.js'); console.log('config plugins:', Object.keys(c.plugins)); try { require('@tailwindcss/postcss'); console.log('require @tailwindcss/postcss: OK'); } catch (e) { console.log('require FAIL:', e.message); }\")",
+      "Shell(del:*)",
+      "Shell(findstr:*)",
+      "Shell(type .npmrc 2>nul & echo ---NPMRC-END--- & type .editorconfig 2>nul & echo ---EDITORCONFIG-END---)",
+      "Shell(type .gitignore 2>nul || echo \"no .gitignore found\")",
+      "Shell(select-string:*)",
+      "Shell(measure-object:*)",
+      "Shell(git:*)",
+      "Shell(select:*)",
+      "Shell(measure:*)"
+    ],
+    "deny": [],
+    "defaultMode": "default"
+  }
+}

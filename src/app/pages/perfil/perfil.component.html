@@ -1,0 +1,112 @@
+<app-page-header
+  titulo="Mi perfil de estudiante"
+  descripcion="Completa tu información para que las empresas te encuentren más fácil."
+  icono="usuario"
+/>
+
+@if (error()) {
+  <div class="mb-6">
+    <app-alert tipo="error">{{ error() }}</app-alert>
+  </div>
+}
+
+@if (guardado()) {
+  <div class="mb-6">
+    <app-alert tipo="exito">Tu perfil se guardó correctamente.</app-alert>
+  </div>
+}
+
+<div class="grid gap-6 lg:grid-cols-3">
+  <!-- Formulario -->
+  <div class="lg:col-span-2">
+    <app-card>
+      <form (ngSubmit)="guardar()" class="flex flex-col gap-5">
+        <app-campo etiqueta="Stack tecnológico" ayuda="Ej: .NET, Angular, PostgreSQL">
+          <input
+            appInput
+            [(ngModel)]="stack"
+            name="stack"
+            placeholder=".NET, Angular, PostgreSQL"
+          />
+        </app-campo>
+
+        <app-campo etiqueta="Conocimientos">
+          <textarea
+            appInput
+            [(ngModel)]="conocimientos"
+            name="conocimientos"
+            rows="3"
+            placeholder="Describe tus conocimientos y áreas de interés"
+          ></textarea>
+        </app-campo>
+
+        <app-campo etiqueta="Cualidades blandas">
+          <textarea
+            appInput
+            [(ngModel)]="cualidades"
+            name="cualidades"
+            rows="3"
+            placeholder="Ej: trabajo en equipo, comunicación asertiva"
+          ></textarea>
+        </app-campo>
+
+        <app-campo etiqueta="Repositorio (GitHub)">
+          <input
+            appInput
+            [(ngModel)]="repositorio"
+            name="repositorio"
+            type="url"
+            placeholder="https://github.com/usuario"
+          />
+        </app-campo>
+
+        <div class="flex items-center gap-3 pt-2">
+          <button appButton type="submit" [cargando]="guardando()" [disabled]="guardando()">
+            Guardar perfil
+          </button>
+        </div>
+      </form>
+    </app-card>
+  </div>
+
+  <!-- Resumen -->
+  <div>
+    <app-card>
+      <h3 class="mb-4 text-base font-semibold">Resumen</h3>
+
+      @if (perfil()?.verificado) {
+        <div class="mb-4">
+          <app-badge color="verde">
+            <span class="flex items-center gap-1">
+              <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+              Perfil verificado
+            </span>
+          </app-badge>
+        </div>
+      }
+
+      <dl class="flex flex-col gap-3 text-sm">
+        <div>
+          <dt class="text-xs font-medium uppercase tracking-wide text-slate-400">Nombre</dt>
+          <dd class="mt-0.5 font-medium text-slate-800">{{ perfil()?.nombre ?? '—' }}</dd>
+        </div>
+        <div>
+          <dt class="text-xs font-medium uppercase tracking-wide text-slate-400">Correo</dt>
+          <dd class="mt-0.5 font-medium text-slate-800">{{ perfil()?.correoInstitucional ?? '—' }}</dd>
+        </div>
+        <div>
+          <dt class="text-xs font-medium uppercase tracking-wide text-slate-400">Rol</dt>
+          <dd class="mt-0.5 font-medium text-slate-800">{{ perfil()?.rol ?? '—' }}</dd>
+        </div>
+        @if (perfil()?.perfilEstudiante?.scoreTecnico != null) {
+          <div>
+            <dt class="text-xs font-medium uppercase tracking-wide text-slate-400">Score técnico</dt>
+            <dd class="mt-0.5">
+              <app-badge color="azul">{{ perfil()?.perfilEstudiante?.scoreTecnico }}</app-badge>
+            </dd>
+          </div>
+        }
+      </dl>
+    </app-card>
+  </div>
+</div>

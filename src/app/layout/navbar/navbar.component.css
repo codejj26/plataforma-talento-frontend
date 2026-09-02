@@ -1,0 +1,22 @@
+.enlace-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-slate-600);
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.enlace-nav:hover {
+  color: var(--color-brand-800);
+  background-color: var(--color-brand-50);
+}
+
+.enlace-nav.activo {
+  color: var(--color-brand-800);
+  background-color: var(--color-brand-50);
+  font-weight: 600;
+}

@@ -1,0 +1,95 @@
+<app-page-header
+  titulo="Vitrina de prototipos"
+  descripcion="Descubre prototipos creados por estudiantes del ITM."
+  icono="prototipo"
+/>
+
+@if (error()) {
+  <div class="mb-6">
+    <app-alert tipo="error">{{ error() }}</app-alert>
+  </div>
+}
+
+@if (auth.hasRole('estudiante')) {
+  <div class="mb-8">
+    <app-card>
+      <h3 class="mb-4 text-base font-semibold">Publicar prototipo</h3>
+      <form (ngSubmit)="publicar()" class="grid gap-4 sm:grid-cols-2">
+        <app-campo etiqueta="Título" [requerido]="true">
+          <input appInput [(ngModel)]="titulo" name="titulo" placeholder="Nombre del prototipo" required />
+        </app-campo>
+
+        <app-campo etiqueta="URL del prototipo">
+          <input
+            appInput
+            [(ngModel)]="url"
+            name="url"
+            type="url"
+            placeholder="https://mi-prototipo.com"
+          />
+        </app-campo>
+
+        <div class="sm:col-span-2">
+          <app-campo etiqueta="Descripción" [requerido]="true">
+            <textarea
+              appInput
+              [(ngModel)]="descripcion"
+              name="descripcion"
+              rows="3"
+              placeholder="¿Qué resuelve tu prototipo?"
+              required
+            ></textarea>
+          </app-campo>
+        </div>
+
+        <div class="sm:col-span-2">
+          <button appButton type="submit" [cargando]="publicando()" [disabled]="publicando()">
+            Publicar prototipo
+          </button>
+        </div>
+      </form>
+    </app-card>
+  </div>
+}
+
+@if (prototipos().length === 0) {
+  <app-empty-state
+    icono="prototipo"
+    titulo="Aún no hay prototipos"
+    mensaje="Los prototipos publicados por los estudiantes aparecerán aquí."
+  />
+} @else {
+  <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    @for (prototipo of prototipos(); track prototipo.id) {
+      <article class="flex flex-col rounded-xl bg-white p-5 shadow-card ring-1 ring-slate-200/60 transition-shadow hover:shadow-card-hover">
+        <div class="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-brand-50 text-brand-700">
+          <app-icon nombre="prototipo" clase="h-5 w-5" />
+        </div>
+        <h3 class="font-semibold text-slate-900">{{ prototipo.titulo }}</h3>
+        <p class="mt-1 text-xs font-medium text-slate-400">por {{ prototipo.nombreEstudiante }}</p>
+        <p class="mt-3 flex-1 text-sm leading-relaxed text-slate-500">{{ prototipo.descripcion }}</p>
+        <div class="mt-4 flex items-center justify-between">
+          <span class="text-xs text-slate-400">{{ prototipo.fechaPublicacion | date: 'mediumDate' }}</span>
+          @if (prototipo.url) {
+            <a
+              [href]="prototipo.url"
+              target="_blank"
+              rel="noopener"
+              class="inline-flex items-center gap-1 text-sm font-medium text-brand-700 hover:text-brand-800"
+            >
+              <app-icon nombre="enlace" clase="h-3.5 w-3.5" />
+              Ver prototipo
+            </a>
+          }
+        </div>
+        @if (auth.hasRole('empresa')) {
+          <div class="mt-4 border-t border-slate-100 pt-4">
+            <button appButton variante="secundario" tamano="sm" (click)="registrarInteres(prototipo.id)">
+              Registrar interés
+            </button>
+          </div>
+        }
+      </article>
+    }
+  </div>
+}

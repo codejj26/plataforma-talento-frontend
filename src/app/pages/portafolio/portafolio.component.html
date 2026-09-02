@@ -1,0 +1,86 @@
+<app-page-header
+  titulo="Portafolio de proyectos"
+  descripcion="Publica los proyectos que demuestran tu talento."
+  icono="portafolio"
+/>
+
+@if (error()) {
+  <div class="mb-6">
+    <app-alert tipo="error">{{ error() }}</app-alert>
+  </div>
+}
+
+<div class="grid gap-6 lg:grid-cols-3">
+  <!-- Formulario -->
+  <div class="lg:col-span-1">
+    <app-card>
+      <h3 class="mb-4 text-base font-semibold">Nuevo proyecto</h3>
+      <form (ngSubmit)="publicar()" class="flex flex-col gap-4">
+        <app-campo etiqueta="Título" [requerido]="true">
+          <input appInput [(ngModel)]="titulo" name="titulo" placeholder="Nombre del proyecto" required />
+        </app-campo>
+
+        <app-campo etiqueta="Descripción" [requerido]="true">
+          <textarea
+            appInput
+            [(ngModel)]="descripcion"
+            name="descripcion"
+            rows="3"
+            placeholder="¿Qué hace tu proyecto?"
+            required
+          ></textarea>
+        </app-campo>
+
+        <app-campo etiqueta="Evidencia / enlace">
+          <input
+            appInput
+            [(ngModel)]="evidenciaUrl"
+            name="evidenciaUrl"
+            type="url"
+            placeholder="https://github.com/usuario/proyecto"
+          />
+        </app-campo>
+
+        <button appButton type="submit" [cargando]="publicando()" [disabled]="publicando()">
+          Publicar proyecto
+        </button>
+      </form>
+    </app-card>
+  </div>
+
+  <!-- Mis proyectos -->
+  <div class="lg:col-span-2">
+    <h3 class="mb-4 text-base font-semibold text-slate-800">Mis proyectos</h3>
+
+    @if (portafolio()?.portafolioVacio) {
+      <app-empty-state
+        icono="vacio"
+        titulo="Tu portafolio está vacío"
+        mensaje="Publica tu primer proyecto para que las empresas conozcan tu trabajo."
+      />
+    } @else {
+      <div class="grid gap-4 sm:grid-cols-2">
+        @for (proyecto of portafolio()?.proyectos; track proyecto.id) {
+          <article class="flex flex-col rounded-xl bg-white p-5 shadow-card ring-1 ring-slate-200/60 transition-shadow hover:shadow-card-hover">
+            <h4 class="font-semibold text-slate-900">{{ proyecto.titulo }}</h4>
+            <p class="mt-2 flex-1 text-sm leading-relaxed text-slate-500">{{ proyecto.descripcion }}</p>
+            <div class="mt-4 flex items-center justify-between">
+              <span class="text-xs text-slate-400">{{ proyecto.fechaPublicacion | date: 'mediumDate' }}</span>
+              @if (proyecto.evidenciaUrl) {
+                <a
+                  [href]="proyecto.evidenciaUrl"
+                  target="_blank"
+                  rel="noopener"
+                  class="inline-flex items-center gap-1 text-sm font-medium text-brand-700 hover:text-brand-800"
+                >
+                  <app-icon nombre="enlace" clase="h-3.5 w-3.5" />
+                  Ver evidencia
+                </a>
+              }
+            </div>
+          </article>
+        }
+      </div>
+    }
+  </div>
+</div>

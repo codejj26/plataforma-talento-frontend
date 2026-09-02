@@ -1,0 +1,133 @@
+<app-page-header
+  titulo="Ofertas laborales"
+  descripcion="Oportunidades de práctica profesional publicadas por empresas aliadas."
+  icono="ofertas"
+/>
+
+@if (error()) {
+  <div class="mb-6">
+    <app-alert tipo="error">{{ error() }}</app-alert>
+  </div>
+}
+
+<!-- Empresa: publicar oferta -->
+@if (auth.hasRole('empresa')) {
+  <div class="mb-8">
+    <app-card>
+      <h3 class="mb-4 text-base font-semibold">Publicar nueva oferta</h3>
+      <form (ngSubmit)="publicar()" class="grid gap-4 sm:grid-cols-2">
+        <div class="sm:col-span-2">
+          <app-campo etiqueta="Título" [requerido]="true">
+            <input appInput [(ngModel)]="titulo" name="titulo" placeholder="Ej: Practicante de desarrollo .NET" required />
+          </app-campo>
+        </div>
+
+          <app-campo etiqueta="Tecnologías requeridas" [requerido]="true">
+          <input appInput [(ngModel)]="tecnologias" name="tecnologias" placeholder=".NET, Angular" required />
+        </app-campo>
+
+          <app-campo etiqueta="Salario mín." [requerido]="true">
+          <input appInput type="number" [(ngModel)]="salarioMin" name="salarioMin" placeholder="1200000" required />
+        </app-campo>
+
+        <div class="sm:col-span-2">
+          <app-campo etiqueta="Aprendizajes esperados" [requerido]="true">
+            <textarea
+              appInput
+              [(ngModel)]="aprendizajes"
+              name="aprendizajes"
+              rows="3"
+              placeholder="¿Qué aprenderá el estudiante durante la práctica?"
+              required
+            ></textarea>
+          </app-campo>
+        </div>
+
+        <app-campo etiqueta="Salario máx." [requerido]="true">
+          <input appInput type="number" [(ngModel)]="salarioMax" name="salarioMax" placeholder="2500000" required />
+        </app-campo>
+
+        <div class="flex items-end pb-0.5">
+          <button appButton type="submit" [cargando]="publicando()" [disabled]="publicando()">
+            Publicar oferta
+          </button>
+        </div>
+      </form>
+    </app-card>
+  </div>
+}
+
+<!-- Estudiante: listar ofertas -->
+@if (auth.hasRole('estudiante')) {
+  <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <h3 class="text-base font-semibold text-slate-800">Ofertas activas</h3>
+    <div class="relative w-full sm:max-w-xs">
+      <app-icon nombre="busqueda" clase="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+      <input
+        appInput
+        [(ngModel)]="filtro"
+        name="filtro"
+        placeholder="Filtrar por tecnología..."
+        class="!pl-9"
+        (ngModelChange)="cargar()"
+      />
+    </div>
+  </div>
+
+  @if (ofertas().length === 0) {
+    <app-empty-state
+      icono="ofertas"
+      titulo="No hay ofertas activas"
+      mensaje="Cuando las empresas publiquen ofertas, aparecerán aquí."
+    />
+  } @else {
+    <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+      @for (oferta of ofertas(); track oferta.id) {
+        <article class="flex flex-col rounded-xl bg-white p-5 shadow-card ring-1 ring-slate-200/60 transition-shadow hover:shadow-card-hover">
+          <div class="mb-3 flex items-start justify-between gap-2">
+            <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-50 text-brand-700">
+              <app-icon nombre="edificio" clase="h-5 w-5" />
+            </div>
+            <app-badge [color]="estadoBadge(oferta.estado)">{{ oferta.estado }}</app-badge>
+          </div>
+
+          <h4 class="font-semibold text-slate-900">{{ oferta.titulo }}</h4>
+          <p class="mt-0.5 text-sm font-medium text-brand-700">{{ oferta.nombreEmpresa }}</p>
+
+          <div class="mt-4 flex flex-1 flex-col gap-2.5 text-sm text-slate-600">
+            <p class="flex items-start gap-2">
+              <app-icon nombre="chispa" clase="mt-0.5 h-4 w-4 shrink-0 text-slate-400" />
+              <span><strong class="font-medium text-slate-700">Tecnologías:</strong> {{ oferta.tecnologiasRequeridas }}</span>
+            </p>
+            <p class="flex items-start gap-2">
+              <app-icon nombre="graduacion" clase="mt-0.5 h-4 w-4 shrink-0 text-slate-400" />
+              <span><strong class="font-medium text-slate-700">Aprendizajes:</strong> {{ oferta.aprendizajesEsperados }}</span>
+            </p>
+            <p class="flex items-start gap-2">
+              <app-icon nombre="moneda" clase="mt-0.5 h-4 w-4 shrink-0 text-slate-400" />
+              <span>
+                <strong class="font-medium text-slate-700">Salario:</strong>
+                {{ oferta.salarioMin | currency: 'USD' : 'symbol' : '1.0-0' }} -
+                {{ oferta.salarioMax | currency: 'USD' : 'symbol' : '1.0-0' }}
+              </span>
+            </p>
+          </div>
+
+          <div class="mt-5 flex items-center justify-between border-t border-slate-100 pt-4">
+            <span class="text-xs text-slate-400">{{ oferta.fechaPublicacion | date: 'mediumDate' }}</span>
+            <button
+              appButton
+              variante="secundario"
+              tamano="sm"
+              (click)="postular(oferta.id)"
+              [cargando]="postulandoId() === oferta.id"
+              [disabled]="postulandoId() !== null"
+            >
+              Postularme
+            </button>
+          </div>
+        </article>
+      }
+    </div>
+  }
+}

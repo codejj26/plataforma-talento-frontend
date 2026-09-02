@@ -1,0 +1,9 @@
+<div class="flex items-start justify-between gap-4 rounded-xl bg-white p-6 shadow-card ring-1 ring-slate-200/60">
+  <div class="flex flex-col gap-1">
+    <span class="text-sm font-medium text-slate-500">{{ etiqueta() }}</span>
+    <strong class="text-3xl font-bold text-brand-800">{{ valor() }}</strong>
+  </div>
+  <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-50 text-brand-600">
+    <app-icon [nombre]="icono()" clase="h-5 w-5" />
+  </div>
+</div>

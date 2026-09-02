@@ -1,0 +1,41 @@
+<app-page-header
+  titulo="Mis postulaciones"
+  descripcion="Sigue el estado de cada postulación que has enviado."
+  icono="postulaciones"
+/>
+
+@if (error()) {
+  <div class="mb-6">
+    <app-alert tipo="error">{{ error() }}</app-alert>
+  </div>
+}
+
+@if (postulaciones().length === 0) {
+  <app-empty-state
+    icono="postulaciones"
+    titulo="Aún no te has postulado"
+    mensaje="Explora las ofertas disponibles y envía tu primera postulación."
+  />
+} @else {
+  <div class="overflow-hidden rounded-xl bg-white shadow-card ring-1 ring-slate-200/60">
+    <ul class="divide-y divide-slate-100">
+      @for (postulacion of postulaciones(); track postulacion.id) {
+        <li class="flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between">
+          <div class="flex items-start gap-3">
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand-50 text-brand-700">
+              <app-icon nombre="ofertas" clase="h-5 w-5" />
+            </div>
+            <div>
+              <h4 class="font-semibold text-slate-900">{{ postulacion.tituloOferta }}</h4>
+              <p class="text-sm text-slate-500">{{ postulacion.nombreEmpresa }}</p>
+              <p class="mt-1 text-xs text-slate-400">
+                Postulada el {{ postulacion.fechaPostulacion | date: 'medium' }}
+              </p>
+            </div>
+          </div>
+          <app-badge [color]="colorEstado(postulacion.estado)">{{ postulacion.estado }}</app-badge>
+        </li>
+      }
+    </ul>
+  </div>
+}

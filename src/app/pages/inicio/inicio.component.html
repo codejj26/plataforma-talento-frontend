@@ -1,0 +1,90 @@
+<section class="relative overflow-hidden bg-brand-950">
+  <!-- Decoración de fondo -->
+  <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+    <div class="absolute -left-24 -top-24 h-72 w-72 rounded-full bg-brand-600/30 blur-3xl"></div>
+    <div class="absolute -bottom-32 right-0 h-96 w-96 rounded-full bg-brand-400/20 blur-3xl"></div>
+  </div>
+
+  <div class="contenedor relative py-20 sm:py-24">
+    <div class="max-w-2xl">
+      <span class="etiqueta-azul mb-6 bg-white/10 text-brand-100 ring-white/20">
+        <app-icon nombre="chispa" clase="h-3.5 w-3.5" />
+        Prácticas profesionales
+      </span>
+      <h1 class="text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl">
+        Conecta estudiantes del ITM con las mejores empresas
+      </h1>
+      <p class="mt-4 max-w-xl text-lg text-brand-100/90">
+        La plataforma institucional donde el talento estudiantil encuentra oportunidades reales de práctica profesional.
+      </p>
+
+      <div class="mt-8 flex flex-wrap gap-3">
+        @if (auth.autenticado()) {
+          <p class="inline-flex items-center gap-2 rounded-lg bg-white/10 px-4 py-2.5 text-sm font-medium text-white ring-1 ring-white/20">
+            <app-icon nombre="check" clase="h-4 w-4 text-emerald-400" />
+            Sesión iniciada como {{ rolActual() }}
+          </p>
+        } @else {
+          <button appButton tamano="lg" (click)="auth.login()">
+            <app-icon nombre="login" clase="h-4 w-4" />
+            Iniciar sesión
+          </button>
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Accesos rápidos por rol -->
+@if (auth.autenticado() && accesosRapidos().length > 0) {
+  <section class="contenedor py-12">
+    <h2 class="mb-6 text-xl font-bold text-slate-900">Accesos rápidos</h2>
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      @for (acceso of accesosRapidos(); track acceso.ruta) {
+        <a
+          routerLink="{{ acceso.ruta }}"
+          class="group flex items-start gap-4 rounded-xl bg-white p-5 shadow-card ring-1 ring-slate-200/60 transition-shadow hover:shadow-card-hover"
+        >
+          <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-700 ring-1 ring-brand-100 transition-colors group-hover:bg-brand-700 group-hover:text-white">
+            <app-icon [nombre]="acceso.icono" clase="h-6 w-6" />
+          </div>
+          <div>
+            <h3 class="font-semibold text-slate-900 group-hover:text-brand-800">{{ acceso.etiqueta }}</h3>
+            <p class="mt-1 text-sm text-slate-500">{{ acceso.descripcion }}</p>
+          </div>
+        </a>
+      }
+    </div>
+  </section>
+}
+
+<!-- Usuario autenticado sin rol asignado -->
+@if (auth.autenticado() && rolActual() === 'invitado') {
+  <section class="contenedor py-12">
+    <div class="rounded-xl border-2 border-dashed border-amber-300 bg-amber-50 p-6 text-center">
+      <h2 class="text-lg font-semibold text-amber-900">Tu cuenta no tiene un rol asignado</h2>
+      <p class="mx-auto mt-2 max-w-md text-sm text-amber-800">
+        Contacta al administrador de la plataforma para que te asigne el rol de
+        estudiante, empresa o administrador. Mientras tanto no podrás acceder a los módulos.
+      </p>
+      <button appButton variante="secundario" tamano="sm" class="mt-4" (click)="auth.logout()">
+        <app-icon nombre="logout" clase="h-4 w-4" />
+        Cerrar sesión
+      </button>
+    </div>
+  </section>
+}
+
+<section class="contenedor py-14">
+  <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    @for (beneficio of beneficios; track beneficio.titulo) {
+      <article class="rounded-xl bg-white p-6 shadow-card ring-1 ring-slate-200/60 transition-shadow hover:shadow-card-hover">
+        <div class="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-brand-50 text-brand-700 ring-1 ring-brand-100">
+          <app-icon [nombre]="beneficio.icono" clase="h-6 w-6" />
+        </div>
+        <h3 class="text-lg font-semibold">{{ beneficio.titulo }}</h3>
+        <p class="mt-2 text-sm leading-relaxed text-slate-500">{{ beneficio.descripcion }}</p>
+      </article>
+    }
+  </div>
+</section>
