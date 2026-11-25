@@ -15,6 +15,7 @@ import { IconComponent } from '../../shared/components/icon/icon.component';
 @Component({
   selector: 'app-prototipos',
   standalone: true,
+  host: { class: 'contenedor py-8 sm:py-10' },
   imports: [
     FormsModule,
     DatePipe,
@@ -43,7 +44,18 @@ export class PrototiposComponent implements OnInit {
   url = '';
 
   ngOnInit(): void {
-    this.cargar();
+    // La vitrina es un endpoint de empresa; el estudiante solo publica.
+    if (this.auth.hasRole('empresa')) this.cargar();
+  }
+
+  protected tituloPagina(): string {
+    return this.auth.hasRole('empresa') ? 'Vitrina de prototipos' : 'Publicar prototipo';
+  }
+
+  protected descripcionPagina(): string {
+    return this.auth.hasRole('empresa')
+      ? 'Descubre prototipos creados por estudiantes del ITM.'
+      : 'Publica tus prototipos para que las empresas los descubran.';
   }
 
   private cargar(): void {
@@ -64,7 +76,6 @@ export class PrototiposComponent implements OnInit {
           this.url = '';
           this.error.set('');
           this.publicando.set(false);
-          this.cargar();
         },
         error: (e) => {
           this.error.set(e.error?.error ?? 'Error al publicar');

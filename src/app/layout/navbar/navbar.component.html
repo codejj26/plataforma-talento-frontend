@@ -28,22 +28,15 @@
 
     <!-- Acciones -->
     <div class="flex items-center gap-2">
-      @if (auth.autenticado()) {
-        <span
-          class="hidden rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold capitalize text-brand-700 ring-1 ring-brand-200 md:inline-flex"
-        >
-          {{ auth.rolActual() }}
-        </span>
-        <button appButton variante="secundario" tamano="sm" (click)="auth.logout()">
-          <app-icon nombre="logout" clase="h-4 w-4" />
-          <span class="hidden sm:inline">Salir</span>
-        </button>
-      } @else {
-        <button appButton variante="primario" tamano="sm" (click)="auth.login()">
-          <app-icon nombre="login" clase="h-4 w-4" />
-          <span class="hidden sm:inline">Iniciar sesión</span>
-        </button>
-      }
+      <span
+        class="hidden rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold capitalize text-brand-700 ring-1 ring-brand-200 md:inline-flex"
+      >
+        {{ auth.rolActual() }}
+      </span>
+      <button appButton variante="secundario" tamano="sm" (click)="auth.logout()">
+        <app-icon nombre="logout" clase="h-4 w-4" />
+        <span class="hidden sm:inline">Salir</span>
+      </button>
 
       <!-- Botón menú móvil -->
       <button

@@ -19,17 +19,10 @@
       </p>
 
       <div class="mt-8 flex flex-wrap gap-3">
-        @if (auth.autenticado()) {
-          <p class="inline-flex items-center gap-2 rounded-lg bg-white/10 px-4 py-2.5 text-sm font-medium text-white ring-1 ring-white/20">
-            <app-icon nombre="check" clase="h-4 w-4 text-emerald-400" />
-            Sesión iniciada como {{ rolActual() }}
-          </p>
-        } @else {
-          <button appButton tamano="lg" (click)="auth.login()">
-            <app-icon nombre="login" clase="h-4 w-4" />
-            Iniciar sesión
-          </button>
-        }
+        <p class="inline-flex items-center gap-2 rounded-lg bg-white/10 px-4 py-2.5 text-sm font-medium text-white ring-1 ring-white/20">
+          <app-icon nombre="check" clase="h-4 w-4 text-emerald-400" />
+          Sesión iniciada como {{ rolActual() }}
+        </p>
       </div>
     </div>
   </div>

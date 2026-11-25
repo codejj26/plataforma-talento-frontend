@@ -22,7 +22,7 @@ export const routes: Routes = [
   {
     path: 'prototipos',
     canActivate: [roleGuard],
-    data: { roles: ['estudiante'] },
+    data: { roles: ['estudiante', 'empresa'] },
     loadComponent: () => import('./pages/prototipos/prototipos.component').then((m) => m.PrototiposComponent),
   },
   {

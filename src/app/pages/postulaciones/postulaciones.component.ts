@@ -16,6 +16,7 @@ const COLOR_ESTADO: Record<PostulacionDto['estado'], BadgeColor> = {
 @Component({
   selector: 'app-postulaciones',
   standalone: true,
+  host: { class: 'contenedor py-8 sm:py-10' },
   imports: [
     DatePipe,
     PageHeaderComponent,

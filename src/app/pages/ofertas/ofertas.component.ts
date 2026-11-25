@@ -16,6 +16,7 @@ import { IconComponent } from '../../shared/components/icon/icon.component';
 @Component({
   selector: 'app-ofertas',
   standalone: true,
+  host: { class: 'contenedor py-8 sm:py-10' },
   imports: [
     FormsModule,
     CurrencyPipe,

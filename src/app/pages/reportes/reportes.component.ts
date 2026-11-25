@@ -18,6 +18,7 @@ interface Metrica {
 @Component({
   selector: 'app-reportes',
   standalone: true,
+  host: { class: 'contenedor py-8 sm:py-10' },
   imports: [
     FormsModule,
     PageHeaderComponent,

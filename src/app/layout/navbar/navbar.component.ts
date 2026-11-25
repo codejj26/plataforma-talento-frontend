@@ -26,7 +26,7 @@ export class NavbarComponent {
     { ruta: '/inicio', etiqueta: 'Inicio', icono: 'inicio' },
     { ruta: '/perfil', etiqueta: 'Mi perfil', icono: 'usuario', roles: ['estudiante'] },
     { ruta: '/portafolio', etiqueta: 'Portafolio', icono: 'portafolio', roles: ['estudiante'] },
-    { ruta: '/prototipos', etiqueta: 'Prototipos', icono: 'prototipo', roles: ['estudiante'] },
+    { ruta: '/prototipos', etiqueta: 'Prototipos', icono: 'prototipo', roles: ['estudiante', 'empresa'] },
     { ruta: '/ofertas', etiqueta: 'Ofertas', icono: 'ofertas', roles: ['estudiante', 'empresa'] },
     { ruta: '/postulaciones', etiqueta: 'Postulaciones', icono: 'postulaciones', roles: ['estudiante'] },
     { ruta: '/reportes', etiqueta: 'Reportes', icono: 'reportes', roles: ['administrador'] },

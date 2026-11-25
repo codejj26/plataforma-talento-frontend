@@ -12,7 +12,8 @@
       "Shell(measure-object:*)",
       "Shell(git:*)",
       "Shell(select:*)",
-      "Shell(measure:*)"
+      "Shell(measure:*)",
+      "Shell(gh:*)"
     ],
     "deny": [],
     "defaultMode": "default"

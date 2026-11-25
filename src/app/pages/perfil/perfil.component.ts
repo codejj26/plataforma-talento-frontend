@@ -12,6 +12,7 @@ import { BadgeComponent } from '../../shared/components/badge/badge.component';
 @Component({
   selector: 'app-perfil',
   standalone: true,
+  host: { class: 'contenedor py-8 sm:py-10' },
   imports: [
     FormsModule,
     PageHeaderComponent,
