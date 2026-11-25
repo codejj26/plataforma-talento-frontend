@@ -1,5 +1,9 @@
 # PlataformaTalentoFrontend
 
+> **Repositorio migrado.** El proyecto ahora vive en el monorepo
+> [codejj26/plataforma-talento](https://github.com/codejj26/plataforma-talento),
+> dentro de la carpeta `frontend/`. Este repositorio queda archivado como referencia.
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.8.
 
 ## Development server
